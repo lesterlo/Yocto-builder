@@ -1,14 +1,43 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
-MAINTAINER Lester Lo <@email>
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install required package
-RUN ./install_lib.sh
+RUN apt update \
+    && apt install -y --no-install-recommends \
+    gcc \
+    build-essential \
+    cmake \
+    \
+    gawk \
+    wget \
+    git \
+    diffstat \
+    unzip \
+    texinfo \
+    \chrpath \
+    socat \
+    cpio \
+    python3 \
+    python3-pip \
+    python3-pexpect \
+    xz-utils \
+    debianutils \
+    iputils-ping \
+    python3-git \
+    python3-jinja2 \
+    python3-subunit \
+    zstd \
+    liblz4-tool \
+    file \
+    locales \
+    libacl1 \
+    libtinfo5 \
+    repo
 
 # Create a new user
-RUN groupadd build -g 1000
+RUN getent group 1000 || groupadd build -g 1000
 RUN useradd -ms /bin/bash -p build build -u 1028 -g 1000 && \
         usermod -aG sudo build && \
         echo "build:build" | chpasswd
